@@ -5,6 +5,7 @@
 #include <netinet/in.h>
 
 #include <string.h>
+#include <unistd.h>
 
 int main(int argc, char *argv[]) {
    int sockfd, portno, n;
@@ -49,19 +50,25 @@ int main(int argc, char *argv[]) {
    /* Now ask for a message from the user, this message
       * will be read by server
    */
-	
-   printf("Please enter the message: ");
-   bzero(buffer,256);
-   fgets(buffer,255,stdin);
-   
-   /* Send message to the server */
-   n = write(sockfd, buffer, strlen(buffer));
-   
-   if (n < 0) {
+   char ctoString[2];
+   ctoString[1]='\0';
+   char cmds[10];
+   int i=0;;
+   printf("Please enter string: ");
+   fgets(cmds,10,stdin);
+   while(i < strlen(cmds)){
+      ctoString[0]=cmds[i];
+      bzero(buffer,256);
+      strcpy(buffer,ctoString);
+      n = write(sockfd, buffer, strlen(buffer));
+      
+         if (n < 0) {
       perror("ERROR writing to socket");
       exit(1);
    }
-   
-   printf("%s\n",buffer);
+   i++;
+   sleep(3);
+
+   }
    return 0;
 }
