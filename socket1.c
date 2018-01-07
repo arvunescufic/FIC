@@ -60,4 +60,5 @@ int main(int argc, char *argv[]) {
   	move(sockfd,buffer); 
 	
    	return 0;
+	
 }
